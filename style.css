@@ -70,3 +70,9 @@ button:hover {
   background-color: #1d4ed8;
 }
 
+#selection-container {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
