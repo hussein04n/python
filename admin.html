@@ -94,6 +94,12 @@
           delBtn.style.marginLeft = '10px';
           delBtn.onclick = () => deleteSubject(doc.id);
 
+          const viewLecturesBtn = document.createElement('button');
+          viewLecturesBtn.textContent = 'View Lectures';
+          viewLecturesBtn.style.marginLeft = '10px';
+          viewLecturesBtn.onclick = () => loadLectures(doc.id, li);
+
+          li.appendChild(viewLecturesBtn);
           li.appendChild(delBtn);
           list.appendChild(li);
         });
@@ -109,6 +115,41 @@
           })
           .catch(err => alert(err.message));
       }
+    }
+
+    function loadLectures(subjectId, parentLi) {
+      const ul = document.createElement('ul');
+      db.collection('subjects').doc(subjectId).collection('lectures').get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            const li = document.createElement('li');
+            li.textContent = doc.data().title + ' (' + doc.id + ')';
+
+            const viewQuestionsBtn = document.createElement('button');
+            viewQuestionsBtn.textContent = 'View Questions';
+            viewQuestionsBtn.style.marginLeft = '10px';
+            viewQuestionsBtn.onclick = () => loadQuestions(subjectId, doc.id, li);
+
+            li.appendChild(viewQuestionsBtn);
+            ul.appendChild(li);
+          });
+          parentLi.appendChild(ul);
+        });
+    }
+
+    function loadQuestions(subjectId, lectureId, parentLi) {
+      const ul = document.createElement('ul');
+      db.collection('subjects').doc(subjectId)
+        .collection('lectures').doc(lectureId)
+        .collection('questions').get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            const li = document.createElement('li');
+            li.textContent = doc.data().question;
+            ul.appendChild(li);
+          });
+          parentLi.appendChild(ul);
+        });
     }
   </script>
 </body>
