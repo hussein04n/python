@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz App</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js"></script>
+  <script defer src="firebase.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2 id="subject-name">Subject: </h2>
+    <h3 id="lecture-name">Lecture: </h3>
+
+    <div id="question-container">
+      <h4 id="question-text">Loading question...</h4>
+      <ul id="options-list"></ul>
+      <div class="navigation">
+        <button id="prev-btn">Back</button>
+        <button id="next-btn">Next</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
