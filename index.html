@@ -5,17 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz App</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js"></script>
-  <script defer src="firebase.js"></script>
-  <script defer src="app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js"></script>
+  <script src="firebase.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
   <div class="container">
+    <div id="selection-container">
+      <select id="subject-select">
+        <option value="">Select Subject</option>
+      </select>
+      <select id="lecture-select">
+        <option value="">Select Lecture</option>
+      </select>
+      <button id="load-quiz">Load Quiz</button>
+    </div>
+
     <h2 id="subject-name">Subject: </h2>
     <h3 id="lecture-name">Lecture: </h3>
 
-    <div id="question-container">
+    <div id="question-container" style="display:none">
       <h4 id="question-text">Loading question...</h4>
       <ul id="options-list"></ul>
       <div class="navigation">
