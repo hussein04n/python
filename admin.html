@@ -35,6 +35,12 @@
       <textarea id="question-options" placeholder="Options (comma separated)"></textarea>
       <button onclick="addQuestion()">Add Question</button>
     </section>
+
+    <section>
+      <h3>Manage Data</h3>
+      <button onclick="loadSubjects()">Show All Subjects</button>
+      <ul id="subject-list"></ul>
+    </section>
   </div>
 
   <script>
@@ -73,6 +79,36 @@
         .collection('questions').add({ question, options })
         .then(() => alert('Question added'))
         .catch(err => alert(err.message));
+    }
+
+    function loadSubjects() {
+      const list = document.getElementById('subject-list');
+      list.innerHTML = '';
+      db.collection('subjects').get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const li = document.createElement('li');
+          li.textContent = doc.data().name + ' (' + doc.id + ')';
+
+          const delBtn = document.createElement('button');
+          delBtn.textContent = 'Delete';
+          delBtn.style.marginLeft = '10px';
+          delBtn.onclick = () => deleteSubject(doc.id);
+
+          li.appendChild(delBtn);
+          list.appendChild(li);
+        });
+      });
+    }
+
+    function deleteSubject(id) {
+      if (confirm('Delete subject and all its content?')) {
+        db.collection('subjects').doc(id).delete()
+          .then(() => {
+            alert('Subject deleted');
+            loadSubjects();
+          })
+          .catch(err => alert(err.message));
+      }
     }
   </script>
 </body>
