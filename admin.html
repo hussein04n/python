@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore-compat.js"></script>
+  <script defer src="firebase.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Dashboard</h2>
+
+    <section>
+      <h3>Add Subject</h3>
+      <input type="text" id="subject-name" placeholder="Subject Name">
+      <button onclick="addSubject()">Add Subject</button>
+    </section>
+
+    <section>
+      <h3>Add Lecture</h3>
+      <input type="text" id="lecture-subject-id" placeholder="Subject ID">
+      <input type="number" id="lecture-number" placeholder="Lecture Number">
+      <input type="text" id="lecture-title" placeholder="Lecture Title">
+      <button onclick="addLecture()">Add Lecture</button>
+    </section>
+
+    <section>
+      <h3>Add Question</h3>
+      <input type="text" id="question-subject-id" placeholder="Subject ID">
+      <input type="text" id="question-lecture-id" placeholder="Lecture ID">
+      <input type="text" id="question-text" placeholder="Question Text">
+      <textarea id="question-options" placeholder="Options (comma separated)"></textarea>
+      <button onclick="addQuestion()">Add Question</button>
+    </section>
+  </div>
+
+  <script>
+    if (localStorage.getItem('auth') !== 'true') {
+      window.location.href = 'login.html';
+    }
+
+    function addSubject() {
+      const name = document.getElementById('subject-name').value;
+      const id = name.toLowerCase().replace(/\s+/g, '');
+      db.collection('subjects').doc(id).set({ name })
+        .then(() => alert('Subject added'))
+        .catch(err => alert(err.message));
+    }
+
+    function addLecture() {
+      const subjectId = document.getElementById('lecture-subject-id').value;
+      const number = parseInt(document.getElementById('lecture-number').value);
+      const title = document.getElementById('lecture-title').value;
+      const lectureId = 'lecture' + number;
+      db.collection('subjects').doc(subjectId)
+        .collection('lectures').doc(lectureId)
+        .set({ number, title })
+        .then(() => alert('Lecture added'))
+        .catch(err => alert(err.message));
+    }
+
+    function addQuestion() {
+      const subjectId = document.getElementById('question-subject-id').value;
+      const lectureId = document.getElementById('question-lecture-id').value;
+      const question = document.getElementById('question-text').value;
+      const options = document.getElementById('question-options').value.split(',').map(o => o.trim());
+
+      db.collection('subjects').doc(subjectId)
+        .collection('lectures').doc(lectureId)
+        .collection('questions').add({ question, options })
+        .then(() => alert('Question added'))
+        .catch(err => alert(err.message));
+    }
+  </script>
+</body>
+</html>
