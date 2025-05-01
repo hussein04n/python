@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Login</h2>
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required><br><br>
+      <input type="password" id="password" placeholder="Password" required><br><br>
+      <button type="submit">Login</button>
+    </form>
+    <p id="error-msg" style="color:red;"></p>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById('login-form');
+    const errorMsg = document.getElementById('error-msg');
+
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Replace with secure auth in production
+      if (username === 'admin' && password === '123456') {
+        localStorage.setItem('auth', 'true');
+        window.location.href = 'admin.html';
+      } else {
+        errorMsg.textContent = 'Invalid credentials';
+      }
+    });
+  </script>
+</body>
+</html>
